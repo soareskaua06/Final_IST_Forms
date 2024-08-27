@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise de Sintomas de ISTs</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Resultado da Análise</h3>
+                <div id="analysisResult">
+                    <!-- Resultado da análise será inserido aqui -->
+                </div>
+                <button class="btn btn-primary mt-3" onclick="window.location.href='index.html'">Voltar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const params = new URLSearchParams(window.location.search);
+            const message = params.get('message');
+
+            const analysisResultDiv = document.getElementById('analysisResult');
+            if (message === 'CUIDADO') {
+                analysisResultDiv.innerHTML = `
+                    <div class="alert alert-warning" role="alert">
+                        CUIDADO! Com base nas suas respostas, há uma maior probabilidade de você estar com uma IST. É altamente recomendado procurar um profissional de saúde.
+                    </div>
+                `;
+            } else {
+                analysisResultDiv.innerHTML = `
+                    <div class="alert alert-success" role="alert">
+                        Tranquilo! Com base nas suas respostas, é menos provável que você tenha uma IST. Mesmo assim, consulte um profissional de saúde para mais segurança.
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

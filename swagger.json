@@ -1,0 +1,140 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Catalago de jogadores",
+    "version": "1.0.0",
+    "description": "API para cadastro de jogadores e fatos curiosos"
+  },
+  "paths": {
+    "/images": {
+      "get": {
+        "summary": "Obter a lista de jogadores",
+        "responses": {
+          "200": {
+            "description": "Lista de jogadores retornada com sucesso"
+          }
+        }
+      },
+      "post": {
+        "summary": "Criar um novo jogador",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/images"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Jogador criado com sucesso"
+          },
+          "400": {
+            "description": "Dados inválidos fornecidos"
+          }
+        }
+      }
+    },
+    "/images/{id}": {
+      "get": {
+        "summary": "Obter informações de um jogador pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Informações do jogador retornadas com sucesso"
+          },
+          "404": {
+            "description": "Jogador não encontrado"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar informações de um jogador pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/images"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Informações do jogador atualizadas com sucesso"
+          },
+          "404": {
+            "description": "Jogador não encontrado"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Excluir um jogador pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Jogador excluído com sucesso"
+          },
+          "404": {
+            "description": "Jogador não encontrado"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "images": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "titulo": {
+            "type": "string",
+            "format": "titulo"
+          },
+          "descricao": {
+            "type": "string",
+            "format": "descricao"
+          },
+          "url": {
+            "type": "string",
+            "format": "url"
+          }
+        }
+      }
+    }
+  }
+}

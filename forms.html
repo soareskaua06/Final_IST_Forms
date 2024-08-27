@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Sintomas de ISTs</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1 class="text-center text-white py-3 mb-0 bg-primary">Formulário de Sintomas de ISTs</h1>
+    <div class="container">
+        <div class="catalog">
+            <form id="symptomsForm">
+                <div class="form-group">
+                    <label>1. Você teve dor ao urinar?</label>
+                    <div>
+                        <label><input type="radio" name="question1" value="Sim" required> Sim</label>
+                        <label><input type="radio" name="question1" value="Não"> Não</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>2. Você teve secreção incomum?</label>
+                    <div>
+                        <label><input type="radio" name="question2" value="Sim" required> Sim</label>
+                        <label><input type="radio" name="question2" value="Não"> Não</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>3. Você teve feridas ou verrugas na área genital?</label>
+                    <div>
+                        <label><input type="radio" name="question3" value="Sim" required> Sim</label>
+                        <label><input type="radio" name="question3" value="Não"> Não</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>4. Você teve coceira ou irritação na área genital?</label>
+                    <div>
+                        <label><input type="radio" name="question4" value="Sim" required> Sim</label>
+                        <label><input type="radio" name="question4" value="Não"> Não</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>5. Você teve dor durante a relação sexual?</label>
+                    <div>
+                        <label><input type="radio" name="question5" value="Sim" required> Sim</label>
+                        <label><input type="radio" name="question5" value="Não"> Não</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Enviar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.com/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.getElementById('symptomsForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const formObject = {};
+            formData.forEach((value, key) => {
+                formObject[key] = value;
+            });
+
+            fetch('http://localhost:3000/api/adicionar-resposta', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formObject)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Contar respostas Sim e Não
+                const answers = Object.values(formObject);
+                const countSim = answers.filter(answer => answer === 'Sim').length;
+                const countNao = answers.filter(answer => answer === 'Não').length;
+
+                // Criar a URL com base no resultado
+                const message = countSim > countNao ? 'CUIDADO' : 'SEGURO';
+                window.location.href = `analysis.html?message=${encodeURIComponent(message)}`;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
